@@ -1,6 +1,6 @@
 require_relative './company'
 require_relative './instance_counter'
-require_relative './ check_valid'
+require_relative './check_valid'
 
 class Train
 
@@ -9,7 +9,8 @@ class Train
   include CheckValid  
 
    NUMBER_FORMAT = /^[a-zа-я0-9]{3}-*[a-zа-я0-9]{2}$/i
-
+  
+  @@trains = {}
   attr_reader :speed, :railcars, :number
 
   def self.find(num_to_find)
@@ -20,10 +21,9 @@ class Train
     @number = number
     @railcars = []
     @speed = 0
+    validate!
     @@trains[@number] = self
     register_instance
-    Validate!
-    valid?
   end
 
   def stop
@@ -53,7 +53,6 @@ class Train
       current_station.train_departure(self)
       @current_station_index += 1
       current_station.add_train(self)
-    end
   end
 
   def station_backward
@@ -61,13 +60,12 @@ class Train
       current_station.train_departure(self)
       @current_station_index += 1
       current_station.add_train(self)
-    end
-  end
+  end                
 
   protected
   # эти методы не ипользуются вне класса, но при этом должны работать с объектами класса(self)
   
-  def Validate!
+  def validate!
     raise "number doesn't match format" if number !~ NUMBER_FORMAT
     raise "number cannot be nil" if number.nil?
   end

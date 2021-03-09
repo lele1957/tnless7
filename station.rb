@@ -1,5 +1,5 @@
 require_relative './instance_counter'
-require_relative './ check_valid'
+require_relative './check_valid'
 
 class Station
   
@@ -19,7 +19,6 @@ class Station
     @@stations << self
     register_instance
     validate!
-    valid?
   end
 
   def type_amount(type)
@@ -38,6 +37,6 @@ class Station
 
   def validate!
     raise "name cannot be nil" if name.nil?
-    raise "max name lenght 20" if name.lenght > 20
+    raise "max name lenght 20" if name.length > 20
   end
 end

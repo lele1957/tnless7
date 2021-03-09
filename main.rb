@@ -193,7 +193,13 @@ end
 def read(command)
  case command
   when "0"
-    create_train
+    begin
+        create_train
+      rescue RuntimeError => e
+        puts e.message
+        puts 'Введите данные заново'
+        retry
+      end
   when "1"
     create_station
   when "2"
